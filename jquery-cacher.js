@@ -5,7 +5,7 @@ function memoizedFetchPrefilter(requestOptions, ajaxOptions, jqXHR) {
   const shouldCacheResponse = isGetRequest && requestOptions.cache !== false;
 
   // Nothing doing...
-  if (!shouldCacheResponse) {
+  if (!shouldCacheResponse && !storageAvailable('sessionStorage')) {
     return;
   }
 
@@ -49,8 +49,13 @@ function memoizedFetchPrefilter(requestOptions, ajaxOptions, jqXHR) {
 
   // Save the response to the cache
   const cacheResponse = (response) => {
-    sessionStorage.setItem(cacheKey, JSON.stringify(response));
-    sessionStorage.setItem(cacheKey + "_time", new Date().getTime());
+    try {
+      sessionStorage.setItem(cacheKey, JSON.stringify(response));
+      sessionStorage.setItem(cacheKey + "_time", new Date().getTime());
+    }
+    catch(err) {
+      console.log("Failed to populate cache for '" + url + "' - session storage is likely full!")
+    }
   };
 
   // Acquire the lock before making a request
@@ -114,4 +119,3 @@ function memoizedFetchPrefilter(requestOptions, ajaxOptions, jqXHR) {
 
 // Register the prefilter with jQuery
 $.ajaxPrefilter(memoizedFetchPrefilter);
-
