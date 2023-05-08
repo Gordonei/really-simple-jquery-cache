@@ -12,7 +12,7 @@ Makes use of [`ajaxPrefilter`](http://api.jquery.com/jquery.ajaxprefilter/) to m
 Should be as simple as including the following script tag in your project of choice:
 
 ```html
-<script src="https://raw.githubusercontent.com/Gordonei/really-simple-jquery-cache/main/jquery-cacher.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Gordonei/really-simple-jquery-cache@main/jquery-cacher.js"></script>
 ```
 
 ## Caveats
